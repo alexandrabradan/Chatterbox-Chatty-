@@ -1,0 +1,109 @@
+-------------------------
+DOCUMENTAZIONE -- doxygen
+-------------------------
+
+Doxygen e un sistema di documentazione utilizzabile per un insieme di
+linguaggi  (C++,C,Java,Phyton ... etc), vedi
+	http://en.wikipedia.org/wiki/Doxygen
+e
+	http://www.doxygen.org
+
+Manuale online:
+	http://www.stack.nl/~dimitri/doxygen/manual.html
+
+Come Javadoc, doxygen estrae documentazione dai commenti nel file sorgente, ma
+puo' generare output in diversi formati: HTML ma anche CHM, RTF, PDF, LaTeX,
+PostScript o man pages.
+
+Doxygen ha bisogno di un file di configurazione che serve per interpretare il
+formato dei commenti.
+Dopodiche' il comando "doxygen" parsa i file sorgenti seguendo le istruzioni
+nel file di configurazione e genera la documentazione secondo il formato
+specificato dal file di configurazione (puo' essere HTML, latex, man pages
+etc...)
+
+1) Creare il file di configurazione ##############
+
+bash:~$  doxygen -g [name_conf_file]
+
+crea un template da personalizzare. Il template puo' essere editato con un
+normale editor o con doxywizard (una GUI piu' user friendly).
+il formato del file di configurazione e' quello di un semplice makefile con
+una serie di assegnamenti (tags) della forma:
+
+TAGNAME = VALUE or
+TAGNAME = VALUE1 VALUE2 ...
+
+Per progetti standard la maggior parte dei tag si possono lasciare a valore di
+default. Per i progetti semplici, tutti nella stessa directory, il tag INPUT
+puo' essere lasciato vuoto. Alternatimente deve essere la radice dell'albero da
+parsare ed anche il tag RECURSIVE deve essere settato. Inoltre e' possibile
+specificare le estensioni dei file da parsare etc (i .c .h sono parsati di
+default).
+Per maggiori dettagli su tutti i tag vedi: 
+http://www.stack.nl/~dimitri/doxygen/config.html
+
+2) Girare Doxygen ###############
+
+Una volta generato il file di configurazione basta girare
+
+bash:~$ doxygen <config-file>
+
+(se il nome e' Doxyfile, non importa specificarlo)
+A questo punto a seconda di quanto specificato nel file vengono create delle
+directory html, rtf, latex, xml e/o man nella directory specificata come output
+(OUTPUT tag, di default quella corrente) Che contengono la documentazione nei
+formati richiesti.
+
+3)  Documentare i sorgenti #################3
+
+Ci sono due modi di documentare: 
+1) in un commento immediatamente prima di qualcosa (in questo caso e' inteso
+che il commento documenta cio' che segue ...)
+2) in un commento in un qualsiasi altro posto. In questo caso si devono usare
+dei comandi espliciti per legare il blocco di documentazione con il suo
+oggetto.  Alcuni comandi: 
+# \struct to document a C-struct.
+# \union to document a union.
+# \enum to document an enumeration type.
+# \fn to document a function.
+# \var to document a variable or typedef or enum value.
+# \def to document a #define.
+# \typedef to document a type definition.
+# \file to document a file.
+
+Attenzione: 
+si puo' usare anche la sintassi Javadoc-like con un at ('@') al posto del
+backslash ('\'). es @file, @enum, @typedef etc ...
+
+I blocchi di documentazione doxygen possono essere inglobati in commenti con
+diversi formati (vedi
+http://www.stack.nl/~dimitri/doxygen/docblocks.html#specialblock). Noi useremo 
+quelli C-like
+/**
+ *  ... testo ....
+ */
+
+Attenzione: il doppio asterisco iniziale e' ESSENZIALE, altrimenti e' un
+normale commento C.
+
+I comandi che possono essere usati nel testo del blocco sono documentati
+in: http://www.stack.nl/~dimitri/doxygen/commands.html
+
+Anche in questo caso si puo' usare anche la sintassi Javadoc-like con un at
+('@') al posto del backslash ('\'). es @param, @return, @bug etc ...
+
+Esempio (dalla documentazione on line)
+/** \function  WindowsNT
+ *  \brief Windows Nice Try.
+ *  \author Bill Gates
+ *  \author Several species of small furry animals gathered together 
+ *          in a cave and grooving with a pict.
+ *  \version 4.0
+ *  \date    1996-1998
+ *  \bug It crashes a lot and requires huge amounts of memory.
+ *  \bug The function introduces the more bugs, the longer it is used.
+ *  \warning This function may explode in your face.
+ *  \warning If you inherit anything from this class, you're doomed.
+ */
+
